@@ -67,7 +67,7 @@ export function QuickActions({ showToast }: QuickActionsProps) {
       icon: Phone,
       label: "طوارئ",
       onClick: handleEmergency,
-      color: "bg-emergency text-primary-foreground",
+      color: "bg-[hsl(0,84%,60%)] text-[hsl(0,0%,100%)]",
     },
   ]
 

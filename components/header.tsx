@@ -44,8 +44,8 @@ export function Header({ onShowUser }: HeaderProps) {
         <span
           className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
             isOnline
-              ? "bg-shops-light text-shops"
-              : "bg-emergency-light text-emergency"
+              ? "bg-[hsl(142,71%,94%)] text-[hsl(142,71%,45%)]"
+              : "bg-[hsl(0,84%,95%)] text-[hsl(0,84%,60%)]"
           }`}
         >
           {isOnline ? "متصل" : "غير متصل"}

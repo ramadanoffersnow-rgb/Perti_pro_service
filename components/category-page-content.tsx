@@ -9,12 +9,12 @@ import { SubServiceCard } from "@/components/sub-service-card"
 import { ToastMessage } from "@/components/toast-message"
 import { BottomNav } from "@/components/bottom-nav"
 
-const colorClasses: Record<string, { bg: string; text: string; lightBg: string; border: string }> = {
-  delivery: { bg: "bg-delivery", text: "text-delivery", lightBg: "bg-delivery-light", border: "border-delivery/30" },
-  maintenance: { bg: "bg-maintenance", text: "text-maintenance", lightBg: "bg-maintenance-light", border: "border-maintenance/30" },
-  emergency: { bg: "bg-emergency", text: "text-emergency", lightBg: "bg-emergency-light", border: "border-emergency/30" },
-  shops: { bg: "bg-shops", text: "text-shops", lightBg: "bg-shops-light", border: "border-shops/30" },
-  special: { bg: "bg-special", text: "text-special", lightBg: "bg-special-light", border: "border-special/30" },
+const colorBgMap: Record<string, string> = {
+  delivery: "bg-[hsl(18,100%,60%)]",
+  maintenance: "bg-[hsl(199,89%,48%)]",
+  emergency: "bg-[hsl(0,84%,60%)]",
+  shops: "bg-[hsl(142,71%,45%)]",
+  special: "bg-[hsl(43,96%,56%)]",
 }
 
 interface CategoryPageContentProps {
@@ -24,7 +24,7 @@ interface CategoryPageContentProps {
 export function CategoryPageContent({ category }: CategoryPageContentProps) {
   const [searchQuery, setSearchQuery] = useState("")
   const [toast, setToast] = useState("")
-  const colors = colorClasses[category.color] || colorClasses.delivery
+  const bgColor = colorBgMap[category.color] || colorBgMap.delivery
 
   const showToast = useCallback((msg: string) => {
     setToast(msg)
@@ -35,9 +35,15 @@ export function CategoryPageContent({ category }: CategoryPageContentProps) {
     : category.services
 
   function handleRequestService(serviceName: string) {
-    const userName = localStorage.getItem("userName") || "عميل"
-    const userPhone = localStorage.getItem("userPhone") || "غير مسجل"
-    const msg = `مرحباً، أنا ${userName}.\nالهاتف: ${userPhone}\nمحتاج خدمة: ${serviceName}\nالقسم: ${category.name}\nفي منطقة النزهة 2.`
+    const userName =
+      typeof window !== "undefined"
+        ? localStorage.getItem("userName") || "عميل"
+        : "عميل"
+    const userPhone =
+      typeof window !== "undefined"
+        ? localStorage.getItem("userPhone") || "غير مسجل"
+        : "غير مسجل"
+    const msg = `مرحبا، أنا ${userName}.\nالهاتف: ${userPhone}\nمحتاج خدمة: ${serviceName}\nالقسم: ${category.name}\nفي منطقة النزهة 2.`
     const url = `https://wa.me/${AppConfig.adminPhone}?text=${encodeURIComponent(msg)}`
     window.open(url, "_blank")
     showToast(`تم تحويلك لطلب ${serviceName}`)
@@ -46,34 +52,32 @@ export function CategoryPageContent({ category }: CategoryPageContentProps) {
   return (
     <div className="min-h-screen pb-24">
       {/* Category Header */}
-      <div className={`${colors.bg} px-4 pt-4 pb-8`}>
+      <div className={`${bgColor} px-4 pt-4 pb-8 text-[hsl(0,0%,100%)]`}>
         <div className="flex items-center gap-3 mb-4">
           <Link
             href="/"
-            className="w-9 h-9 rounded-xl bg-primary-foreground/20 flex items-center justify-center text-primary-foreground transition-colors hover:bg-primary-foreground/30"
+            className="w-9 h-9 rounded-xl bg-[hsl(0,0%,100%)]/20 flex items-center justify-center transition-colors hover:bg-[hsl(0,0%,100%)]/30"
           >
             <ArrowRight className="h-5 w-5" />
           </Link>
-          <h1 className="text-xl font-bold text-primary-foreground">
-            {category.name}
-          </h1>
+          <h1 className="text-xl font-bold">{category.name}</h1>
         </div>
-        <p className="text-sm text-primary-foreground/80 leading-relaxed">
+        <p className="text-sm leading-relaxed opacity-80">
           {category.description}
         </p>
         <div className="flex items-center gap-2 mt-3">
-          <span className="text-xs bg-primary-foreground/20 text-primary-foreground px-3 py-1 rounded-full font-bold">
+          <span className="text-xs bg-[hsl(0,0%,100%)]/20 px-3 py-1 rounded-full font-bold">
             {category.services.length} خدمة متاحة
           </span>
           {category.id === "emergency" && (
-            <span className="text-xs bg-primary-foreground/30 text-primary-foreground px-3 py-1 rounded-full font-bold animate-pulse">
+            <span className="text-xs bg-[hsl(0,0%,100%)]/30 px-3 py-1 rounded-full font-bold animate-pulse">
               متاح 24/7
             </span>
           )}
         </div>
       </div>
 
-      {/* Search within category */}
+      {/* Search */}
       <div className="px-4 -mt-4">
         <div className="relative">
           <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
