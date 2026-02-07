@@ -1,94 +1,54 @@
 "use client"
 
-import { useState, useCallback, useMemo } from "react"
+import { useState, useCallback } from "react"
 import { AppConfig } from "@/lib/app-config"
 import { Header } from "@/components/header"
 import { NotificationBar } from "@/components/notification-bar"
 import { SearchBar } from "@/components/search-bar"
-import { IntroSection } from "@/components/intro-section"
-import { ActionButtons } from "@/components/action-buttons"
-import { ServicesGrid } from "@/components/services-grid"
+import { DeliveryHero } from "@/components/delivery-hero"
+import { StatsBar } from "@/components/stats-bar"
+import { CategoryCard } from "@/components/category-card"
+import { QuickActions } from "@/components/quick-actions"
 import { UserModal } from "@/components/user-modal"
 import { Chatbot } from "@/components/chatbot"
 import { FloatingButtons } from "@/components/floating-buttons"
 import { ToastMessage } from "@/components/toast-message"
 import { Onboarding } from "@/components/onboarding"
+import { BottomNav } from "@/components/bottom-nav"
 
 export default function HomePage() {
-  const [searchQuery, setSearchQuery] = useState("")
   const [userModalOpen, setUserModalOpen] = useState(false)
   const [toast, setToast] = useState("")
-
-  const filteredServices = useMemo(() => {
-    if (!searchQuery.trim()) return AppConfig.services
-    return AppConfig.services.filter((s) => s.name.includes(searchQuery))
-  }, [searchQuery])
 
   const showToast = useCallback((msg: string) => {
     setToast(msg)
   }, [])
 
-  function handleRequestService(serviceName: string) {
-    const userName = localStorage.getItem("userName") || "عميل"
-    const userPhone = localStorage.getItem("userPhone") || "غير مسجل"
-    const msg = `مرحباً، أنا ${userName}.\nالهاتف: ${userPhone}\nمحتاج خدمة: ${serviceName} في منطقة النزهة 2.`
-    const url = `https://wa.me/${AppConfig.adminPhone}?text=${encodeURIComponent(msg)}`
-    window.open(url, "_blank")
-    showToast(`تم تحويلك لطلب ${serviceName}`)
-  }
-
-  function handleVoiceSearch() {
-    if (typeof window === "undefined") return
-    const SpeechRecognition =
-      (window as unknown as Record<string, unknown>).webkitSpeechRecognition ||
-      (window as unknown as Record<string, unknown>).SpeechRecognition
-
-    if (!SpeechRecognition) {
-      showToast("المتصفح لا يدعم البحث الصوتي")
-      return
-    }
-
-    const recognition = new (SpeechRecognition as new () => SpeechRecognition)()
-    ;(recognition as unknown as Record<string, string>).lang = "ar-EG"
-    recognition.start()
-    showToast("جاري الاستماع...")
-
-    recognition.onresult = (event: SpeechRecognitionEvent) => {
-      const transcript = event.results[0][0].transcript
-      showToast(`سمعتك بتقول: ${transcript}`)
-      setSearchQuery(transcript)
-    }
-
-    recognition.onerror = () => {
-      showToast("لم أسمعك جيداً، حاول مرة أخرى")
-    }
-  }
-
-  function handleQuickRequest() {
-    const userName = localStorage.getItem("userName") || "عميل جديد"
-    const userPhone = localStorage.getItem("userPhone") || "غير مسجل"
-    const msg = `طلب سريع من ${userName}\nالهاتف: ${userPhone}\nمن منطقة النزهة 2`
-    const url = `https://wa.me/${AppConfig.adminPhone}?text=${encodeURIComponent(msg)}`
-    window.open(url, "_blank")
-  }
-
   return (
-    <div className="min-h-screen pb-20">
+    <div className="min-h-screen pb-24">
       <NotificationBar />
-      <Header />
-      <SearchBar value={searchQuery} onChange={setSearchQuery} />
+      <Header onShowUser={() => setUserModalOpen(true)} />
+      <SearchBar />
 
-      <main>
-        <IntroSection />
-        <ActionButtons
-          onVoiceSearch={handleVoiceSearch}
-          onShowUser={() => setUserModalOpen(true)}
-          onQuickRequest={handleQuickRequest}
-        />
-        <ServicesGrid
-          services={filteredServices}
-          onRequest={handleRequestService}
-        />
+      <main className="flex flex-col gap-5">
+        <DeliveryHero />
+        <StatsBar />
+
+        <QuickActions showToast={showToast} />
+
+        <section className="px-4">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-bold text-foreground">كل الأقسام</h2>
+            <span className="text-xs text-muted-foreground">
+              {AppConfig.categories.length} أقسام رئيسية
+            </span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {AppConfig.categories.map((category) => (
+              <CategoryCard key={category.id} category={category} />
+            ))}
+          </div>
+        </section>
       </main>
 
       <UserModal
@@ -99,6 +59,7 @@ export default function HomePage() {
       <Chatbot />
       <FloatingButtons />
       <Onboarding />
+      <BottomNav />
 
       {toast && (
         <ToastMessage message={toast} onDismiss={() => setToast("")} />

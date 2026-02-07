@@ -8,12 +8,13 @@ const cairo = Cairo({
 })
 
 export const metadata: Metadata = {
-  title: "BertyPro Ultra - خدمات النزهة 2",
-  description: "خدمات توصيل وطوارئ ومنزلية في النزهة 2 - جسر السويس",
+  title: "BertyPro - خدمات النزهة 2 | توصيل ومشاوير وصيانة",
+  description:
+    "اطلب أي خدمة في النزهة 2 وجسر السويس - توصيل طلبات، مشاوير، صيانة، طوارئ، محلات وخدمات خاصة. أسرع خدمة توصيل في منطقتك.",
 }
 
 export const viewport: Viewport = {
-  themeColor: "#00ff88",
+  themeColor: "#FF6B35",
   width: "device-width",
   initialScale: 1,
 }

@@ -4,26 +4,38 @@
 
 @layer base {
   :root {
-    --background: 200 43% 9%;
-    --foreground: 0 0% 100%;
-    --card: 197 36% 20%;
-    --card-foreground: 0 0% 100%;
-    --popover: 197 36% 20%;
-    --popover-foreground: 0 0% 100%;
-    --primary: 152 100% 50%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 187 100% 42%;
-    --secondary-foreground: 0 0% 0%;
-    --muted: 197 36% 25%;
-    --muted-foreground: 198 16% 73%;
-    --accent: 197 36% 28%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 100% 63%;
+    --background: 30 25% 97%;
+    --foreground: 220 20% 14%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 14%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 14%;
+    --primary: 18 100% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 199 89% 48%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 220 14% 92%;
+    --muted-foreground: 220 9% 46%;
+    --accent: 43 96% 56%;
+    --accent-foreground: 220 20% 14%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 152 100% 50% / 0.2;
-    --input: 197 36% 25%;
-    --ring: 152 100% 50%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 18 100% 60%;
     --radius: 0.75rem;
+
+    /* Category-specific colors */
+    --delivery: 18 100% 60%;
+    --delivery-light: 18 100% 95%;
+    --maintenance: 199 89% 48%;
+    --maintenance-light: 199 89% 94%;
+    --emergency: 0 84% 60%;
+    --emergency-light: 0 84% 95%;
+    --shops: 142 71% 45%;
+    --shops-light: 142 71% 94%;
+    --special: 43 96% 56%;
+    --special-light: 43 96% 93%;
   }
 }
 

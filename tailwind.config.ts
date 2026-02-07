@@ -44,6 +44,26 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        delivery: {
+          DEFAULT: "hsl(var(--delivery))",
+          light: "hsl(var(--delivery-light))",
+        },
+        maintenance: {
+          DEFAULT: "hsl(var(--maintenance))",
+          light: "hsl(var(--maintenance-light))",
+        },
+        emergency: {
+          DEFAULT: "hsl(var(--emergency))",
+          light: "hsl(var(--emergency-light))",
+        },
+        shops: {
+          DEFAULT: "hsl(var(--shops))",
+          light: "hsl(var(--shops-light))",
+        },
+        special: {
+          DEFAULT: "hsl(var(--special))",
+          light: "hsl(var(--special-light))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
