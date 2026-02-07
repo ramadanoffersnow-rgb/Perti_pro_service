@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>BertyPro Ultra - خدمات النزهة 2</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00ff88">
+  <meta name="description" content="خدمات توصيل وطوارئ ومنزلية في النزهة 2 - جسر السويس">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js" defer></script>
+</head>
+<body>
+
+  <div id="notificationBar" class="notification-bar hidden">
+    <span id="notificationText">عروض اليوم</span>
+    <button onclick="dismissNotification()">✕</button>
+  </div>
+
+  <header class="top-bar">
+    <div class="header-left">
+      <span id="regionName">النزهة 2 – جسر السويس</span>
+      <span id="currentTime" class="time"></span>
+    </div>
+    <span id="netStatus">متصل</span>
+  </header>
+
+  <main>
+    <section class="quick-search">
+      <input type="text" id="quickSearch" placeholder="ابحث عن خدمة..." oninput="handleQuickSearch(this.value)">
+      <div id="searchResults" class="search-results hidden"></div>
+    </section>
+
+    <section class="intro">
+      <div class="status-indicators">
+        <span id="onlineCount">12<span>خدمة أونلاين</span></span>
+        <span id="responseTime">3.2<span>دقائق استجابة</span></span>
+      </div>
+      <h1 id="welcomeMsg">خدمات كتير بسرعة ومن غير تعب</h1>
+      <p>اختار الخدمة أو استخدم البحث الصوتي</p>
+    </section>
+
+    <section class="actions">
+      <button class="voice-btn primary" onclick="startVoice()">بحث صوتي</button>
+      <button class="action-btn" onclick="showUserModal()">حسابي</button>
+      <button class="action-btn" onclick="confirmRequest()">طلب سريع</button>
+    </section>
+
+    <section class="services" id="services"></section>
+  </main>
+
+  <div id="mapPanel" class="map-panel collapsed">
+    <div class="map-header">
+      <span>خريطة المنطقة</span>
+      <div>
+        <button onclick="centerMap()">مركز</button>
+        <button onclick="toggleMap()">إغلاق</button>
+        <button onclick="expandMap()">تكبير</button>
+      </div>
+    </div>
+    <div id="map"></div>
+    <div class="map-footer">
+      <button onclick="confirmRequest()" class="confirm-btn">تأكيد الطلب</button>
+    </div>
+  </div>
+
+  <div id="userModal" class="modal hidden">
+    <div class="modal-content">
+      <h3>بيانات حسابك</h3>
+      <div class="user-info">
+        <input id="userName" placeholder="الاسم الكامل">
+        <input id="userPhone" placeholder="01xxxxxxxxx" type="tel">
+        <input id="userAddress" placeholder="العنوان التفصيلي (اختياري)">
+      </div>
+      <div class="modal-actions">
+        <button onclick="saveUser()" class="primary">حفظ</button>
+        <button onclick="hideModal('userModal')" class="secondary">إلغاء</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="chatbot" class="chatbot hidden">
+    <div class="chat-header">
+      مساعد BertyPro
+      <div>
+        <span id="chatStatus">متصل</span>
+        <button onclick="toggleChat()">✖</button>
+      </div>
+    </div>
+    <div id="chatBody" class="chat-body"></div>
+    <div class="chat-input">
+      <input id="chatInput" placeholder="اكتب طلبك هنا…" onkeypress="handleChatEnter(event)">
+      <button onclick="sendChat()">إرسال</button>
+    </div>
+  </div>
+
+  <div class="emergency-fabs">
+    <button class="fab emergency" onclick="quickEmergency('medical')"></button>
+    <button class="fab emergency" onclick="quickEmergency('security')"></button>
+  </div>
+
+  <a class="whatsapp-fab" href="#" onclick="openWhatsAppDefault()" id="whatsappLink"></a>
+  <button class="chat-fab" onclick="toggleChat()"></button>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <div id="onboarding" class="onboarding hidden">
+    <div class="onboarding-box">
+      <h2>أهلاً بيك</h2>
+      <p>
+        BertyPro بيساعدك تطلب خدمات منطقتك بسرعة.
+        اختار الخدمة واضغط طلب.
+      </p>
+      <button class="primary" onclick="closeOnboarding()">تمام</button>
+    </div>
+  </div>
+
+  <script src="data/app-config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/user.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/voice.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script src="js/request.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+
+</body>
+</html>
